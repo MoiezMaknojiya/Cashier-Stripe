@@ -5,55 +5,44 @@
         </h2>
     </x-slot>
 
-<!-- Include Stripe.js library -->
-<script src="https://js.stripe.com/v3/"></script>
+    <input id="card-holder-name" type="text">
+    <!-- Stripe Elements Placeholder -->
+    <div id="card-element"></div>
+    <button id="card-button" data-secret="{{ $intent->client_secret }}">Update Payment Method</button>
+    <!-- Include Stripe.js library -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        (function() {
+            let stripe_id = "{{ $stripe_key }}";
 
+            let stripe = Stripe(stripe_id);
 
-<input id="card-holder-name" type="text">
- 
-<!-- Stripe Elements Placeholder -->
-<div id="card-element"></div>
- 
-<button id="card-button" data-secret="{{ $intent->client_secret }}">
-    Update Payment Method
-</button>
+            let elements = stripe.elements();
+            let cardElement = elements.create('card');
 
-<script src="https://js.stripe.com/v3/"></script>
- 
-<script>
+            cardElement.mount('#card-element');
 
-    const StripeID = "{{ $stripe_id }}";
+            let cardHolderName = document.getElementById('card-holder-name');
+            let cardButton = document.getElementById('card-button');
+            let clientSecret = cardButton.dataset.secret;
 
-    const stripe = Stripe(StripeID);
- 
-    const elements = stripe.elements();
-    const cardElement = elements.create('card');
- 
-    cardElement.mount('#card-element');
-
-    const cardHolderName = document.getElementById('card-holder-name');
-    const cardButton = document.getElementById('card-button');
-    const clientSecret = cardButton.dataset.secret;
-    
-    cardButton.addEventListener('click', async (e) => {
-        const { setupIntent, error } = await stripe.confirmCardSetup(
-            clientSecret, {
-                payment_method: {
-                    card: cardElement,
-                    billing_details: { name: cardHolderName.value }
+            cardButton.addEventListener('click', async (e) => {
+                let { setupIntent, error } = await stripe.confirmCardSetup(
+                    clientSecret, {
+                        payment_method: {
+                            card: cardElement,
+                            billing_details: { name: cardHolderName.value }
+                        }
+                    }
+                );
+                if (error) {
+                    // Display "error.message" to the user...
+                    console.log(error.message);
+                } else {
+                    // The card has been verified successfully...
+                    console.log('Success');
                 }
-            }
-        );
-    
-        if (error) {
-            // Display "error.message" to the user...
-            console.log(error.message);
-        } else {
-            // The card has been verified successfully...
-            console.log('Success');
-        }
-    });
-</script>
-
-
+            });
+        })();
+    </script>
 </x-app-layout>

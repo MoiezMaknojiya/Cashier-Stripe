@@ -14,7 +14,7 @@
 </button>
 
 <script>
-    const StripeID = "{{ $stripe_id }}";
+    const StripeID = "{{ $stripe_key }}";
     const stripe = Stripe(StripeID);
 
     // Note: We don't need to create a 'us_bank_account' element

@@ -31,15 +31,18 @@ Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 // Create Customer 
 Route::get('ucreate', [StripeCustomersController::class, 'create'])->middleware(['auth', 'verified'])->name('ucreate');
 // Delete Customer 
-Route::get('udelete', [StripeCustomersController::class, 'destroy'])->middleware(['auth', 'verified'])->name('ucreate');
+Route::get('udelete', [StripeCustomersController::class, 'destroy'])->middleware(['auth', 'verified'])->name('udelete');
 // Update Customer 
-Route::get('uupdate', [StripeCustomersController::class, 'update'])->middleware(['auth', 'verified'])->name('ucreate');
+Route::get('uupdate', [StripeCustomersController::class, 'update'])->middleware(['auth', 'verified'])->name('uupdate');
 // Retrive Customer 
-Route::get('ushow', [StripeCustomersController::class, 'show'])->middleware(['auth', 'verified'])->name('ucreate');
+Route::get('ushow', [StripeCustomersController::class, 'show'])->middleware(['auth', 'verified'])->name('ushow');
 
 Route::get('/payment-method', [StripePaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('payment.method');
+
 // Route::post('/update-payment-method', [StripePaymentMethodController::class, 'index'])->name('update.payment.method');
 
+Route::get('pmshow', [StripePaymentMethodController::class, 'show'])->middleware(['auth', 'verified'])->name('pmshow');
+Route::get('pmdelete', [StripePaymentMethodController::class, 'destroy'])->middleware(['auth', 'verified'])->name('pmdelete');
 
 
 require __DIR__.'/auth.php';

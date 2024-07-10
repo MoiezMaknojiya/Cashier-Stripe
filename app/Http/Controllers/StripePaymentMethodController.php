@@ -19,17 +19,14 @@ class StripePaymentMethodController extends Controller
         // dd($paymentMethods);
 
         // For Card
-        // $intent = $user->createSetupIntent();
+        $intent = $user->createSetupIntent();
 
-        // Create the SetupIntent with us_bank_account as an allowed payment method type
-        $intent = $user->createSetupIntent([
-            'payment_method_types' => ['us_bank_account'],
-        ]);
+        // For US Bank Account
+        // $intent = $user->createSetupIntent(['payment_method_types' => ['us_bank_account']]);
 
-
-        return view('bank-payment-method', [
+        return view('card-payment-method', [
             'intent' => $intent,
-            'stripe_id' => "pk_test_ynOXQ84MGf9bGnRpukVxtz4D00Q2RbpzLy",
+            'stripe_key' => "pk_test_ynOXQ84MGf9bGnRpukVxtz4D00Q2RbpzLy",
         ]);
     }
 
@@ -52,9 +49,21 @@ class StripePaymentMethodController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $user = auth()->user();
+        $paymentMethods = $user->paymentMethods();
+        $firstPaymentMethod = $paymentMethods->first();
+        if ($firstPaymentMethod)
+        {
+            $paymentMethodId = $firstPaymentMethod->id;
+        }
+        else
+        {
+            // Handle the case where there are no payment methods
+            $paymentMethodId = null;
+        }
+        dd($paymentMethodId);
     }
 
     /**
@@ -76,8 +85,16 @@ class StripePaymentMethodController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $user = auth()->user();
+        $paymentMethods = $user->paymentMethods();
+        $firstPaymentMethod = $paymentMethods->first();
+        if ($firstPaymentMethod)
+        {
+            $paymentMethodId = $firstPaymentMethod->id;
+            $paymentMethod = $user->findPaymentMethod($paymentMethodId);
+            $paymentMethod->delete();
+        }
     }
 }
