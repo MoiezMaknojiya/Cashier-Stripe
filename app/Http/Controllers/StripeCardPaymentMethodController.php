@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class StripePaymentMethodController extends Controller
+class StripeCardPaymentMethodController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -88,13 +88,15 @@ class StripePaymentMethodController extends Controller
     public function destroy(Request $request)
     {
         $user = auth()->user();
-        $paymentMethods = $user->paymentMethods();
-        $firstPaymentMethod = $paymentMethods->first();
-        if ($firstPaymentMethod)
-        {
-            $paymentMethodId = $firstPaymentMethod->id;
-            $paymentMethod = $user->findPaymentMethod($paymentMethodId);
-            $paymentMethod->delete();
-        }
+        $user->deletePaymentMethods();
+
+        // $paymentMethods = $user->paymentMethods();
+        // $firstPaymentMethod = $paymentMethods->first();
+        // if ($firstPaymentMethod)
+        // {
+        //     $paymentMethodId = $firstPaymentMethod->id;
+        //     $paymentMethod = $user->findPaymentMethod($paymentMethodId);
+        //     $paymentMethod->delete();
+        // }
     }
 }
