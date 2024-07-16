@@ -38,7 +38,7 @@ class StripeCustomersController extends Controller
                     'other_key' => 'other_value',
                 ],
                 'name' => 'John Doe',
-                'payment_method' => 'pm_card_visa', // Example PaymentMethod ID from Stripe (replace with actual ID)
+                // 'payment_method' => 'pm_card_visa', // Example PaymentMethod ID from Stripe (replace with actual ID)
                 'phone' => '+1234567890',
                 'shipping' => [
                     'address' => [

@@ -4,6 +4,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\StripeCustomersController;
 use App\Http\Controllers\StripeCardPaymentMethodController;
 use App\Http\Controllers\StripeBankPaymentMethodController;
+use App\Http\Controllers\InstantBankVerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,7 +45,7 @@ Route::get('pmdelete', [StripeCardPaymentMethodController::class, 'destroy'])->m
 
 Route::get('/bpm', [StripeBankPaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
 
-
+Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
 
 
 
