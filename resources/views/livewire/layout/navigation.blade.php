@@ -34,11 +34,25 @@ new class extends Component
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                
+
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('pricing')" :active="request()->routeIs('pricing')" wire:navigate>
                         {{ __('Pricing') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('cpm')" :active="request()->routeIs('cpm')" wire:navigate>
+                        {{ __('Card Payment Method') }}
+                    </x-nav-link>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('bpm')" :active="request()->routeIs('bpm')" wire:navigate>
+                        {{ __('Bank Payment Method') }}
                     </x-nav-link>
                 </div>
             </div>
