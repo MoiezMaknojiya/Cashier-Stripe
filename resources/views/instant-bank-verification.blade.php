@@ -13,17 +13,12 @@
         <button type="submit">Submit</button>
     </form>
 
-    <form id="confirmation-form" style="display:none;">
-        <button type="submit">Confirm Bank Account Setup</button>
-    </form>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const stripe = Stripe("{{ $stripe_key }}");
             const clientSecret = "{{ $intent->client_secret }}";
 
             const paymentMethodForm = document.getElementById('payment-method-form');
-            const confirmationForm = document.getElementById('confirmation-form');
 
             paymentMethodForm.addEventListener('submit', (ev) => {
                 ev.preventDefault();
@@ -44,29 +39,35 @@
                     },
                     expand: ['payment_method'],
                 }).then(({setupIntent, error}) => {
-                    if (error) {
+                    if (error)
+                    {
                         console.error(error.message);
-                    } else if (setupIntent.status === 'requires_payment_method') {
-                        console.log("Customer canceled the hosted verification modal.");
-                    } else if (setupIntent.status === 'requires_confirmation') {
-                        console.log("Bank account collected. Displaying confirmation form.");
-                        confirmationForm.style.display = 'block';
                     }
-                });
-            });
-
-            confirmationForm.addEventListener('submit', (ev) => {
-                ev.preventDefault();
-                stripe.confirmUsBankAccountSetup(clientSecret)
-                .then(({setupIntent, error}) => {
-                    if (error) {
-                        console.error(error.message);
-                    } else if (setupIntent.status === "requires_payment_method") {
-                        console.log("Confirmation failed. Attempt again with a different payment method.");
-                    } else if (setupIntent.status === "succeeded") {
-                        console.log("Confirmation succeeded! The account is now saved.");
-                    } else if (setupIntent.next_action?.type === "verify_with_microdeposits") {
-                        console.log("The account needs to be verified via microdeposits.");
+                    else if (setupIntent.status === 'requires_payment_method')
+                    {
+                        console.log("Customer canceled the hosted verification modal.");
+                    }
+                    else if (setupIntent.status === 'requires_confirmation')
+                    {
+                        console.log("Bank account collected. Displaying confirmation form.");
+                        stripe.confirmUsBankAccountSetup(clientSecret).then(({setupIntent, error}) => {
+                            if (error)
+                            {
+                                console.error(error.message);
+                            }
+                            else if (setupIntent.status === "requires_payment_method")
+                            {
+                                console.log("Confirmation failed. Attempt again with a different payment method.");
+                            }
+                            else if (setupIntent.status === "succeeded")
+                            {
+                                console.log("Confirmation succeeded! The account is now saved.");
+                            }
+                            else if (setupIntent.next_action?.type === "verify_with_microdeposits")
+                            {
+                                console.log("The account needs to be verified via microdeposits.");
+                            }
+                        });
                     }
                 });
             });

@@ -45,8 +45,6 @@ Route::get('pmdelete', [StripeCardPaymentMethodController::class, 'destroy'])->m
 
 Route::get('/bpm', [StripeBankPaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
 
-Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
-
-
+Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middleware(['auth', 'verified'])->name('mbpm');
 
 require __DIR__.'/auth.php';
