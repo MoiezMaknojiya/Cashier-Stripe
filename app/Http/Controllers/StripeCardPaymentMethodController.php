@@ -53,17 +53,18 @@ class StripeCardPaymentMethodController extends Controller
     {
         $user = auth()->user();
         $paymentMethods = $user->paymentMethods();
-        $firstPaymentMethod = $paymentMethods->first();
-        if ($firstPaymentMethod)
+        $firstPaymentMethod = $paymentMethods->last();
+        if($firstPaymentMethod)
         {
             $paymentMethodId = $firstPaymentMethod->id;
+            $user->updateDefaultPaymentMethod($paymentMethodId);
         }
         else
         {
             // Handle the case where there are no payment methods
             $paymentMethodId = null;
         }
-        dd($paymentMethodId);
+        return $paymentMethodId;
     }
 
     /**

@@ -5,6 +5,7 @@ use App\Http\Controllers\StripeCustomersController;
 use App\Http\Controllers\StripeCardPaymentMethodController;
 use App\Http\Controllers\StripeBankPaymentMethodController;
 use App\Http\Controllers\InstantBankVerificationController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,5 +47,7 @@ Route::get('pmdelete', [StripeCardPaymentMethodController::class, 'destroy'])->m
 Route::get('/bpm', [StripeBankPaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
 
 Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middleware(['auth', 'verified'])->name('mbpm');
+
+Route::get('/sub', [SubscriptionController::class, 'index'])->middleware(['auth', 'verified'])->name('sub');
 
 require __DIR__.'/auth.php';
