@@ -48,6 +48,8 @@ Route::get('/bpm', [StripeBankPaymentMethodController::class, 'index'])->middlew
 
 Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middleware(['auth', 'verified'])->name('mbpm');
 
-Route::get('/sub', [SubscriptionController::class, 'index'])->middleware(['auth', 'verified'])->name('sub');
+Route::get('/csub', [SubscriptionController::class, 'index'])->middleware(['auth', 'verified'])->name('csub');
+Route::get('/rsub', [SubscriptionController::class, 'resume'])->middleware(['auth', 'verified'])->name('rsub');
+Route::get('/resub', [SubscriptionController::class, 'retryPayment'])->middleware(['auth', 'verified'])->name('rsub');
 
 require __DIR__.'/auth.php';

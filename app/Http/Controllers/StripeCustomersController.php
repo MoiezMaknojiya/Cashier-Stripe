@@ -25,30 +25,30 @@ class StripeCustomersController extends Controller
             // Dummy customer data
             $customerData = [
                 'address' => [
-                    'line1' => '123 Main St',
-                    'city' => 'Anytown',
-                    'postal_code' => '12345',
-                    'state' => 'CA',
+                    'line1' => '10100 North Lamar Boulevard',
+                    'city' => 'Austin',
+                    'postal_code' => '78753 ',
+                    'state' => 'TX',
                     'country' => 'US',
                 ],
                 'description' => 'Test customer for demonstration purposes',
-                'email' => 'testcustomer@example.com',
+                'email' => 'devteam@gmail.com',
                 'metadata' => [
                     'custom_key' => 'value',
                     'other_key' => 'other_value',
                 ],
-                'name' => 'John Doe',
+                'name' => 'Dev Team',
                 // 'payment_method' => 'pm_card_visa', // Example PaymentMethod ID from Stripe (replace with actual ID)
-                'phone' => '+1234567890',
+                'phone' => '+9876543210',
                 'shipping' => [
                     'address' => [
-                        'line1' => '456 Shipping Ave',
-                        'city' => 'Shipping City',
-                        'postal_code' => '54321',
-                        'state' => 'NY',
+                        'line1' => '10100 North Lamar Boulevard',
+                        'city' => 'Austin',
+                        'postal_code' => '78753 ',
+                        'state' => 'TX',
                         'country' => 'US',
                     ],
-                    'name' => 'Jane Doe',
+                    'name' => 'Dev Team',
                     'phone' => '+9876543210',
                 ],
             ];
@@ -102,29 +102,29 @@ class StripeCustomersController extends Controller
 
         $options = [
             'address' => [
-                'line1' => '123 Main St',
-                'city' => 'Anytown',
-                'postal_code' => '12345',
-                'state' => 'CA',
+                'line1' => '10100 North Lamar Boulevard',
+                'city' => 'Austin',
+                'postal_code' => '78753 ',
+                'state' => 'TX',
                 'country' => 'US',
             ],
             'description' => 'Updated customer description',
-            'email' => 'updatedcustomer@example.com',
+            'email' => 'devteam@gmail.com',
             'metadata' => [
                 'custom_key' => 'new_value',
                 'other_key' => 'updated_value',
             ],
-            'name' => 'John Doe', // Customer's name
-            'phone' => '+1234567890', // Customer's phone number
+            'name' => 'Dev Team', // Customer's name
+            'phone' => '+9876543210', // Customer's phone number
             'shipping' => [
                 'address' => [
-                    'line1' => '456 Shipping Ave',
-                    'city' => 'Shipping City',
-                    'postal_code' => '54321',
-                    'state' => 'NY',
+                    'line1' => '10100 North Lamar Boulevard',
+                    'city' => 'Austin',
+                    'postal_code' => '78753 ',
+                    'state' => 'TX',
                     'country' => 'US',
                 ],
-                'name' => 'Jane Doe', // Shipping recipient's name
+                'name' => 'Dev Team', // Shipping recipient's name
                 'phone' => '+9876543210', // Shipping recipient's phone number
             ],
         ];
