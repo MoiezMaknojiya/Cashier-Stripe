@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
-use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Exceptions\IncompletePayment;
+
+use Laravel\Cashier\Subscription as CashierSubscription;
 
 class SubscriptionController extends Controller
 {
@@ -15,14 +15,29 @@ class SubscriptionController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $paymentMethods = $user->paymentMethods();
-        $firstPaymentMethod = $paymentMethods->last();
-        if($firstPaymentMethod)
+
+        // // Check if the user already has an active subscription
+        // if ($user->subscribed('prod_QZTKqbk4QPmXA2'))
+        // {
+        //     return response()->json(['message' => 'You already have an active subscription.'], 400);
+        // }
+
+        try
         {
-            $paymentMethodID = $firstPaymentMethod->id;
-            $user->newSubscription("prod_QWuF2W5jibyEMy","price_1PfqRODtGoQsuHRvkyfaVgye")->create($paymentMethodID);
-            return "Success";
+            $paymentMethods = $user->paymentMethods();
+            $firstPaymentMethod = $paymentMethods->last();
+            if($firstPaymentMethod)
+            {
+                $paymentMethodID = $firstPaymentMethod->id;
+                $user->newSubscription("prod_QZTKqbk4QPmXA2","price_1PiKNiDtGoQsuHRvsLKaeNcQ")->create($paymentMethodID);
+            }
         }
+        catch (IncompletePayment $exception) 
+        {
+            // Handle the incomplete payment exception
+            return response()->json(['message' => 'Payment incomplete.'], 400);
+        }
+        return response()->json(['message' => 'Subscription created successfully.']);
     }
 
     /**
@@ -89,7 +104,6 @@ class SubscriptionController extends Controller
         //
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
@@ -98,12 +112,12 @@ class SubscriptionController extends Controller
         $stripe = new StripeClient(config('cashier.secret'));
         $user = auth()->user();
         
-        $user->subscription('prod_QWuF2W5jibyEMy')->resume();
+        $user->subscription('prod_QZQBs0O5uf6yAJ')->resume();
         
         dd('dd');
 
 
-        $subscription = $user->subscription('prod_QWuF2W5jibyEMy');
+        $subscription = $user->subscription('prod_QZQBs0O5uf6yAJ');
 
         // Ensure the subscription exists
         if (!$subscription)
@@ -181,4 +195,45 @@ class SubscriptionController extends Controller
         // // Retry the latest invoice
         // $user->invoice()->pay();
     }
+
+
+    public function duplicate(Request $request)
+    {
+        $user = auth()->user();
+        // Fetch all subscriptions for the specified user
+        $subscriptions = CashierSubscription::where('user_id', $user->id)->get();
+        $subscriptions = $subscriptions->slice(0, -1);
+        //
+        foreach($subscriptions as $subscription)
+        {
+            echo "Subscription ID: " . $subscription->stripe_id . "\n";
+            echo "Created At: " . $subscription->created_at . "\n";
+
+            // Fetch all invoices for the subscription, sorted by creation date
+            $invoices = $subscription->invoices();
+
+            foreach ($invoices as $invoice)
+            {
+                if ($invoice->payment_intent)
+                {
+                    $payment_id = $invoice->payment_intent;
+                    // $user->refund($payment_id);
+                    
+                    echo "invoice ID: " . $payment_id . "\n";
+                }
+            }
+            echo "\n";
+
+            // Cancel the subscription
+            // $subscription->cancel(); // Cancels at the end of the billing period
+
+            // Uncomment the following line to cancel immediately
+            // $subscription->cancelNow();
+
+            // $subscription->items()->delete();
+            // $subscription->delete();
+        }
+        return response()->json(['message' => 'Duplicate subscriptions handled successfully.']);
+    }
+
 }

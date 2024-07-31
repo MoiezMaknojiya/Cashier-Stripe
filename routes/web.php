@@ -50,6 +50,8 @@ Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middle
 
 Route::get('/csub', [SubscriptionController::class, 'index'])->middleware(['auth', 'verified'])->name('csub');
 Route::get('/rsub', [SubscriptionController::class, 'resume'])->middleware(['auth', 'verified'])->name('rsub');
-Route::get('/resub', [SubscriptionController::class, 'retryPayment'])->middleware(['auth', 'verified'])->name('rsub');
+Route::get('/resub', [SubscriptionController::class, 'retryPayment'])->middleware(['auth', 'verified'])->name('resub');
+Route::get('/usub', [SubscriptionController::class, 'update'])->middleware(['auth', 'verified'])->name('usub');
+Route::get('/dsub', [SubscriptionController::class, 'duplicate'])->middleware(['auth', 'verified'])->name('dsub');
 
 require __DIR__.'/auth.php';
