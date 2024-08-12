@@ -40,13 +40,18 @@ Route::get('uupdate', [StripeCustomersController::class, 'update'])->middleware(
 // Retrive Customer
 Route::get('ushow', [StripeCustomersController::class, 'show'])->middleware(['auth', 'verified'])->name('ushow');
 
+
+
+
 Route::get('/cpm', [StripeCardPaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('cpm');
 Route::get('pmshow', [StripeCardPaymentMethodController::class, 'show'])->middleware(['auth', 'verified'])->name('pmshow');
 Route::get('pmdelete', [StripeCardPaymentMethodController::class, 'destroy'])->middleware(['auth', 'verified'])->name('pmdelete');
 
-Route::get('/bpm', [StripeBankPaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
 
+Route::get('/bpm', [StripeBankPaymentMethodController::class, 'index'])->middleware(['auth', 'verified'])->name('bpm');
 Route::get('/mbpm', [InstantBankVerificationController::class, 'index'])->middleware(['auth', 'verified'])->name('mbpm');
+
+
 
 Route::get('/csub', [SubscriptionController::class, 'index'])->middleware(['auth', 'verified'])->name('csub');
 Route::get('/rsub', [SubscriptionController::class, 'resume'])->middleware(['auth', 'verified'])->name('rsub');
