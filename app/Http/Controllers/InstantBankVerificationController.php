@@ -26,7 +26,7 @@ class InstantBankVerificationController extends Controller
         ]);
         return view('instant-bank-verification',[
             'intent' => $intent,
-            'stripe_key' => "pk_test_ynOXQ84MGf9bGnRpukVxtz4D00Q2RbpzLy",
+            'stripe_key' => "pk_test_51PqctP2LyVgVxJCXSqisWbCBdiEQ3UPPdZovOJXYszAmYecbQa9QEUrenii1yaaciO58zbYE6Ar2GtKa89KpSNAR009x98ylqW",
         ]);
     }
 
